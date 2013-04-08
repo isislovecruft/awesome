@@ -1,0 +1,53 @@
+#!/bin/bash
+###############################################################################
+#
+# thinkvolume
+# --------------
+# change the volume on a broken thinkpad with amixer
+#
+# @author Isis Agora Lovecruft, 0x2cdb8b35
+# @date 18 August 2012
+# @version 0.0.1
+#______________________________________________________________________________
+# Changelog:
+###############################################################################
+
+MUTECMD="amixer -q set Master toggle "
+NOISEUP="amixer -q -c 0 sset Master 2dB+ playback"
+NOISEDOWN="amixer -q -c 0 sset Master 2dB- playback"
+
+function usage() {
+    echo -e "Usage: $0 [options]"
+    echo -e "    Options:"
+    echo -e "    -u, --up           Increase volume by 5%"
+    echo -e "    -d, --down         Decrease volume by 5%"
+    echo -e "    -m, --mute         Mute audio"
+    echo -e "    -n, --unmute       Unmute audio"
+}
+
+if [ "$#" -eq "0" ] ; then
+    usage
+    exit 1
+elif [ "$#" -gt "0" ] ; then
+    while [ "$1" != "" ] ; do
+        case $1 in
+            up | u )            $($NOISEUP)
+                                shift
+                                ;;
+            down | d )          $($NOISEDOWN)
+                                shift
+                                ;;
+            mute | m )          $($MUTECMD)
+                                shift
+                                ;;
+            unmute | n )        $($MUTECMD)
+                                shift
+                                ;;
+            * )                 logger "hey, im your thinkpad volume. FUCK YOU FUCK YOU FUCK YOU."
+                                exit 1
+                                ;;
+        esac
+    done
+else
+    exit 1
+fi
