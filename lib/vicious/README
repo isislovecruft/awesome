@@ -132,9 +132,10 @@ vicious.widgets.cpufreq
 vicious.widgets.thermal
   - provides temperature levels of ACPI and coretemp thermal zones
   - takes the thermal zone as an argument, i.e. "thermal_zone0", or a
-    table with 1st field as thermal zone and 2nd as data source -
-    available data sources are "proc", "core" and "sys" - which is the
-    default when only the zone is provided
+    table with 1st field as thermal zone, 2nd as data source -
+    available data sources are "proc", "core" and "sys" (which is the
+    default when only the zone is provided) and 3rd optional argument
+    as a temperature input file to read
   - returns 1st value as temperature of requested thermal zone
 
 vicious.widgets.uptime
@@ -509,6 +510,20 @@ Example
   - enables graph stacking/multigraph and plots usage of all three CPU
     cores on a single graph, the textbox "ctext" is just an empty
     placeholder, graph is updated every 3 seconds
+
+A lot of users are not happy with default symbols used in volume,
+battery, cpufreq and other widget types. You can use your own symbols
+without any need to modify modules.
+
+  volumewidget = widget({ type = "textbox"})
+  vicious.register(volumewidget, vicious.widgets.volume,
+    function(widget, args)
+      local label = { ["♫"] = "O", ["♩"] = "M" }
+      return "Volume: " .. args[1] .. "% State: " .. label[args[2]]
+    end, 2, "PCM")
+
+  - uses a custom table map to modify symbols representing the mixer
+    state; on or off/mute
 
 
 Other
