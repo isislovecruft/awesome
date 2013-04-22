@@ -11,6 +11,16 @@ run_once("wmname", "LG3D")
 
 -- Turn the screensaver off
 --run_once("xset", "s off")
+run_once("xscreensaver", "-nosplash")
+
+-- Turn key clicks off:
+run_once("xset", "c off")
+
+-- Set the keyboard rate:
+run_once("xset", "r rate 175 50")
+
+-- Standby 300 seconds, suspend 600 seconds, turn screen off 600 seconds:
+run_once("xset", "dpms 300 600 600")
 
 -- Start autocutsel so that we have a $CLIPBOARD:
 run_once("autocutsel", "-fork &")
